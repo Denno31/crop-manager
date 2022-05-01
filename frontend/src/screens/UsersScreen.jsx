@@ -21,7 +21,7 @@ import { fetchUsers, deleteUser } from "../actions/userActions";
 // import AddUserDialog from "../components/forms/AddUserDialog";
 import { FETCH_USER_RESET } from "../constants/userConstants";
 import { dateFormater } from "../utils";
-
+const exemptions = ["denniskyn80@gmail.com"];
 const useStyles = makeStyles({
   root: {
     padding: "15px 15px",

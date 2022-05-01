@@ -71,7 +71,8 @@ router.put(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.body._id);
-    console.log(user);
+    if ((user.email = "denniskyn80@gmail.com"))
+      res.status(401).send({ message: "cannot delete this user" });
     user.email = req.body.email || user.email;
     user.password = req.body.password
       ? bcrypt.hashSync(req.body.password, 8)
@@ -94,6 +95,8 @@ router.delete(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
+    if ((user.email = "denniskyn80@gmail.com"))
+      res.status(401).send({ message: "cannot delete this user" });
     const deleteUser = await user.delete();
     res.send({ message: "User Deleted Successfully" });
   })
