@@ -103,11 +103,14 @@ const AddUserScreen = () => {
       password,
       isAdmin: role,
     };
+    console.log(userData);
+    console.log(id);
     if (id) {
       userData._id = user._id;
-      return dispatch(updateUser(userData));
+      dispatch(updateUser(userData));
+    } else {
+      dispatch(addUser(userData));
     }
-    dispatch(addUser(user));
   };
   return (
     <MainLayout>
