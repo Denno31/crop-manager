@@ -26,9 +26,9 @@ import {
 import { useParams } from "react-router-dom";
 import { addCrop } from "../../actions/cropActions";
 
-export default function AddCropDialog({ handleClose, open }) {
+export default function AddCropDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  console.log(id);
   const { error, loading, success } = useSelector((state) => state.cropCreate);
   const {
     error: errorCrop,
@@ -83,7 +83,9 @@ export default function AddCropDialog({ handleClose, open }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Add New Crop"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {!id ? "Add New Crop" : "Update Crop"}
+        </DialogTitle>
         <DialogContent>
           {(loading || loadingCropUpdate) && (
             <div
