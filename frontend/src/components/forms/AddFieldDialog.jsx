@@ -102,7 +102,9 @@ export default function AddFieldDialog({ handleClose, open, id }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Add New Field"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {!id ? "Add New Field" : "Update Field"}
+        </DialogTitle>
         <DialogContent>
           {(loading || loadingFieldUpdate) && (
             <div
