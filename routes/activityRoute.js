@@ -26,6 +26,7 @@ router.post(
       seedOrigin: req.body.seedOrigin,
       shortNotes: req.body.shortNotes,
       createdBy: req.user,
+      seedType: req.body.seedType,
       status: req.body.status,
     });
     const createdPlanting = await planting.save();
@@ -77,6 +78,7 @@ router.put(
     planting.seedOrigin = req.body.seedOrigin || planting.seedOrigin;
     planting.shortNotes = req.body.shortNotes || planting.shortNotes;
     planting.status = req.body.status || planting.status;
+    planting.seedType = req.body.seedType || planting.seedType;
 
     const updatedPlanting = await planting.save();
     res.send({ message: "Planting updated", planting: updatedPlanting });

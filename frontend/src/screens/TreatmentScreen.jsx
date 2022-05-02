@@ -21,10 +21,51 @@ import { deleteTreatment, fetchTreatments } from "../actions/treatmentActions";
 import AddTreatmentDialog from "../components/forms/AddTreatmentDialog";
 import { FETCH_TREATMENT_RESET } from "../constants/treatmentConstants";
 import { dateFormater } from "../utils";
+import MyDataGrid from "../components/MyDataGrid";
+const columns = [
+  { field: "treatmentDate", headerName: "Date", width: 150 },
+  {
+    field: "field",
+    headerName: "Field",
+    flex: 1,
+    editable: true,
+  },
 
+  {
+    field: "productUsed",
+    headerName: "Product",
+    type: "number",
+    flex: 1,
+    editable: true,
+  },
+  {
+    field: "quantityOfProduct",
+    headerName: "Quantity",
+    type: "number",
+    flex: 1,
+    editable: true,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    type: "number",
+    flex: 1,
+    editable: true,
+  },
+  // {
+  //   field: "fullName",
+  //   headerName: "Full name",
+  //   description: "This column has a value getter and is not sortable.",
+  //   sortable: false,
+  //   width: 160,
+  //   valueGetter: (params) =>
+  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+  // },
+];
 const useStyles = makeStyles({
   root: {
-    padding: "15px 15px",
+    padding: "15 0",
+    marginTop: "50px",
   },
 });
 const TreatmentScreen = () => {
@@ -40,114 +81,185 @@ const TreatmentScreen = () => {
     success: successTreatmentDelete,
   } = useSelector((state) => state.treatmentDelete);
   const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState(null);
 
   React.useEffect(() => {
     dispatch(fetchTreatments());
   }, [dispatch, successTreatmentDelete]);
-
+  React.useEffect(() => {
+    if (!open) setId(null);
+  }, [open]);
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+  React.useEffect(() => {}, [dispatch, navigate, open]);
   const handleClose = () => {
     setOpen(false);
   };
-
+  const formatRowsData = () => {
+    let rows = treatments?.map((t) => {
+      return {
+        ...t,
+        field: t?.field.name,
+        id: t._id,
+        handleClickOpen,
+        treatmentDate: dateFormater(t.treatmentDate),
+        navigateFunc,
+        handleDelete,
+      };
+    });
+    if (!rows) return [];
+    return rows;
+  };
+  const navigateFunc = (id) => {
+    setId(id);
+  };
+  const handleDelete = (id) => {
+    dispatch(deleteTreatment(id));
+  };
   return (
     <MainLayout>
-      <Typography variant="div">
-        <TableContainer component={Paper}>
-          <Typography variant="div">
-            <Typography className={classes.root} variant="h5">
-              Treatments
-            </Typography>
-            <Typography className={classes.root} variant="div">
-              <Button
-                onClick={() => {
-                  navigate("/treatment");
-                  dispatch({ type: FETCH_TREATMENT_RESET });
-                  handleClickOpen();
-                }}
-                startIcon={<AddIcon />}
-                color="secondary"
-                variant="contained"
-              >
-                Add
-              </Button>
-            </Typography>
+      <div className="table__unresponsive">
+        <div className="page__title">
+          <Typography className={classes.root} variant="h5">
+            Treatments
           </Typography>
-          {(loading || loadingTreatmentDelete) && <CircularProgress />}
-          {error && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {error}
-            </Alert>
-          )}
-          {errorTreatmentDelete && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {errorTreatmentDelete}
-            </Alert>
-          )}
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
+        </div>
+        <div className="add__btn__container">
+          <Button
+            onClick={() => {
+              //navigate("/treatment");
+              dispatch({ type: FETCH_TREATMENT_RESET });
+              handleClickOpen();
+            }}
+            startIcon={<AddIcon />}
+            color="secondary"
+            variant="contained"
+          >
+            Add
+          </Button>
+        </div>
+        {(loading || loadingTreatmentDelete) && <CircularProgress />}
+        {error && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {error}
+          </Alert>
+        )}
+        {errorTreatmentDelete && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {errorTreatmentDelete}
+          </Alert>
+        )}
+        <MyDataGrid
+          cols={columns}
+          rows={formatRowsData()}
+          handleClickOpen={handleClickOpen}
+        />
+      </div>
 
-                {/* <TableCell>Crop</TableCell> */}
-                <TableCell>Field</TableCell>
-                <TableCell>Product</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Status</TableCell>
+      <div className="table__responsive">
+        <Typography variant="div">
+          <TableContainer component={Paper}>
+            <Typography variant="div">
+              <Typography className={classes.root} variant="h5">
+                Treatments
+              </Typography>
 
-                <TableCell size="small" colSpan={2} align="center">
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {treatments?.map((treatment) => (
-                <TableRow key={treatment?._id}>
-                  <TableCell align="left">
-                    {dateFormater(treatment?.treatmentDate)}
-                  </TableCell>
-                  {/* <TableCell>
-                    {treatment?.plantingToTreatment?.crop?.cropName}
-                  </TableCell> */}
-                  <TableCell>{treatment?.field?.name}</TableCell>
-                  <TableCell>{treatment?.productUsed}</TableCell>
-                  <TableCell>{treatment?.quantityOfProduct}</TableCell>
-                  <TableCell>{treatment?.status}</TableCell>
+              <Typography className={classes.root} variant="div">
+                <Button
+                  onClick={() => {
+                    //navigate("/treatment");
+                    dispatch({ type: FETCH_TREATMENT_RESET });
+                    handleClickOpen();
+                  }}
+                  startIcon={<AddIcon />}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </Typography>
+            </Typography>
+            {(loading || loadingTreatmentDelete) && <CircularProgress />}
+            {error && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {error}
+              </Alert>
+            )}
+            {errorTreatmentDelete && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {errorTreatmentDelete}
+              </Alert>
+            )}
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Date</TableCell>
 
-                  <TableCell size="small" align="right">
-                    <Button
-                      onClick={() => {
-                        navigate(`/treatment/${treatment._id}`);
-                        handleClickOpen();
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell size="small" align="left">
-                    <Button
-                      onClick={() => {
-                        console.log(treatment._id);
-                        dispatch(deleteTreatment(treatment._id));
-                      }}
-                    >
-                      <DeleteIcon></DeleteIcon>
-                    </Button>
+                  {/* <TableCell>Crop</TableCell> */}
+                  <TableCell>Field</TableCell>
+                  <TableCell>Product</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Status</TableCell>
+
+                  <TableCell size="small" colSpan={2} align="center">
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <AddTreatmentDialog
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
-          open={open}
-        ></AddTreatmentDialog>
-      </Typography>
+              </TableHead>
+              <TableBody>
+                {treatments?.map((treatment) => (
+                  <TableRow key={treatment?._id}>
+                    <TableCell align="left">
+                      {dateFormater(treatment?.treatmentDate)}
+                    </TableCell>
+                    {/* <TableCell>
+                    {treatment?.plantingToTreatment?.crop?.cropName}
+                  </TableCell> */}
+                    <TableCell>{treatment?.field?.name}</TableCell>
+                    <TableCell>{treatment?.productUsed}</TableCell>
+                    <TableCell>{treatment?.quantityOfProduct}</TableCell>
+                    <TableCell>{treatment?.status}</TableCell>
+
+                    <TableCell size="small" align="right">
+                      <Button
+                        onClick={() => {
+                          // navigate(`/treatment/${treatment._id}`);
+                          navigateFunc(treatment._id);
+                          handleClickOpen();
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell size="small" align="left">
+                      <Button
+                        onClick={() => {
+                          dispatch(deleteTreatment(treatment._id));
+                        }}
+                      >
+                        <DeleteIcon></DeleteIcon>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Typography>
+      </div>
+      <AddTreatmentDialog
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        open={open}
+        id={id}
+      ></AddTreatmentDialog>
     </MainLayout>
   );
 };

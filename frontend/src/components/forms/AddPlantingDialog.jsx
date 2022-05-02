@@ -35,9 +35,9 @@ import { useParams } from "react-router-dom";
 import { addPlanting } from "../../actions/plantingActions";
 import { dateFormater } from "../../utils";
 
-export default function AddPlantingDialog({ handleClose, open }) {
+export default function AddPlantingDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const { error, loading, success } = useSelector(
     (state) => state.plantingCreate
   );
@@ -351,6 +351,7 @@ export default function AddPlantingDialog({ handleClose, open }) {
               type="submit"
               onClick={handleSubmit}
               autoFocus
+              disabled={loading || loadingPlantingUpdate}
             >
               Submit
             </Button>
@@ -361,6 +362,7 @@ export default function AddPlantingDialog({ handleClose, open }) {
               type="submit"
               onClick={handleSubmit}
               autoFocus
+              disabled={loading || loadingPlantingUpdate}
             >
               update
             </Button>

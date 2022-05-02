@@ -36,9 +36,9 @@ import { addTask } from "../../actions/taskActions";
 import { dateFormater } from "../../utils";
 import { fetchPlantings } from "../../actions/plantingActions";
 
-export default function AddTaskDialog({ handleClose, open }) {
+export default function AddTaskDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const { error, loading, success } = useSelector((state) => state.taskCreate);
   const {
     error: errorTask,

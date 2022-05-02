@@ -40,9 +40,10 @@ import { addHarvest } from "../../actions/harvestActions";
 import { dateFormater } from "../../utils";
 import { fetchPlantings } from "../../actions/plantingActions";
 
-export default function AddHarvestDialog({ handleClose, open }) {
+export default function AddHarvestDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  // const { id } = useParams();
+  console.log(id);
   const { error, loading, success } = useSelector(
     (state) => state.harvestCreate
   );

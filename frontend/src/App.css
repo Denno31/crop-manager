@@ -66,14 +66,6 @@
 .text-title {
   color: #ffffff;
 }
-@media (max-width: 768px) {
-  .css-aq1gdx-MuiDrawer-docked .MuiDrawer-paper {
-    display: none !important;
-  }
-  .create-user-form {
-    width: 90% !important;
-  }
-}
 
 /* add user information */
 .create-user-form {
@@ -113,4 +105,27 @@
   margin-top: 5px;
   margin-right: 10px;
   right: 0;
+}
+.table__responsive {
+  display: none;
+}
+@media (max-width: 768px) {
+  .css-aq1gdx-MuiDrawer-docked .MuiDrawer-paper {
+    display: none !important;
+  }
+  .create-user-form {
+    width: 90% !important;
+  }
+  .table__unresponsive {
+    display: none;
+  }
+  .table__responsive {
+    display: block;
+  }
+}
+.add__btn__container {
+  margin-bottom: 10px !important;
+}
+.page__title {
+  margin-bottom: 10px;
 }
