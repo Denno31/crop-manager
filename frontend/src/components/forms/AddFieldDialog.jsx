@@ -29,9 +29,9 @@ import {
 } from "../../constants/fieldConstants";
 import { useParams } from "react-router-dom";
 
-export default function AddFieldDialog({ handleClose, open }) {
+export default function AddFieldDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const { error, loading, success } = useSelector((state) => state.fieldCreate);
   const {
     error: errorField,

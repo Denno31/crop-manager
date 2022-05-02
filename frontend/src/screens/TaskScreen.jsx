@@ -131,17 +131,6 @@ const TaskScreen = () => {
             Add
           </Button>
         </div>
-        {(loading || loadingTaskDelete) && <CircularProgress />}
-        {error && (
-          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-            {error}
-          </Alert>
-        )}
-        {errorTaskDelete && (
-          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-            {errorTaskDelete}
-          </Alert>
-        )}
         <MyDataGrid
           cols={columns}
           rows={formatRowsData()}
