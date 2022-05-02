@@ -190,7 +190,7 @@ export default function AddFieldDialog({ handleClose, open }) {
                       <MenuItem value="Partially Cultivated">
                         Partially Cultivated
                       </MenuItem>
-                      <MenuItem value="Fully Cultivated<">
+                      <MenuItem value="Fully Cultivated">
                         Fully Cultivated
                       </MenuItem>
                       <MenuItem value="Full Shade">Full Shade</MenuItem>
