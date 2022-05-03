@@ -39,10 +39,10 @@ import {
 import { fetchFields } from "../../actions/fieldActions";
 import { fetchExpenseCategories } from "../../actions/expenseCategoryActions";
 import { dateFormater } from "../../utils";
-export default function AddExpenseDialog({ handleClose, open }) {
+export default function AddExpenseDialog({ handleClose, open, id }) {
   const DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const { error, loading, success } = useSelector(
     (state) => state.expenseCreate
   );
@@ -74,7 +74,8 @@ export default function AddExpenseDialog({ handleClose, open }) {
   const [expenseCategory, setExpenseCategory] = React.useState("");
   const [receipt, setReceipt] = React.useState("");
   const [customer, setCustomer] = React.useState("");
-  const [expenseDate, setExpenseDate] = React.useState(new Date());
+  const [expenseDate, setExpenseDate] = React.useState(null);
+
   React.useEffect(() => {
     if (success || successUpdate) {
       dispatch(fetchExpenses());
@@ -114,7 +115,8 @@ export default function AddExpenseDialog({ handleClose, open }) {
     expenseData.expenseAmount = expenseTrans;
     expenseData.receiptNo = receipt;
     expenseData.customerName = customer;
-    expenseData.expenseDate = formatDate(new Date(expenseDate));
+    console.log(expenseDate);
+    expenseData.expenseDate = expenseDate;
 
     if (!isUpdate) {
       dispatch(addExpense(expenseData));
@@ -224,7 +226,7 @@ export default function AddExpenseDialog({ handleClose, open }) {
                     </Select>
                   </FormControl>
                   <TextField
-                    label="How much did spend"
+                    label="How much did you spend"
                     name="amount"
                     margin="normal"
                     type="number"
@@ -236,7 +238,7 @@ export default function AddExpenseDialog({ handleClose, open }) {
                   <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DesktopDatePicker
-                        label="Date desktop"
+                        label="Expense Date"
                         inputFormat="MM/dd/yyyy"
                         value={expenseDate}
                         onChange={(newValue) => setExpenseDate(newValue)}
@@ -244,6 +246,7 @@ export default function AddExpenseDialog({ handleClose, open }) {
                       />
                     </LocalizationProvider>
                   </FormControl>
+
                   <TextField
                     label="Receipt no (optional)"
                     name="receipt"

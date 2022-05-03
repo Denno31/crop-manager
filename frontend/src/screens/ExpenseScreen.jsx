@@ -22,10 +22,29 @@ import moment from "moment";
 import { FETCH_EXPENSE_RESET } from "../constants/expenseConstants";
 import AddExpenseDialog from "../components/forms/AddExpenseDialog";
 import { dateFormater } from "../utils";
+import MyDataGrid from "../components/MyDataGrid";
+
+const columns = [
+  { field: "category", headerName: "Source", width: 150 },
+  {
+    field: "expenseDate",
+    headerName: "Date Of Income",
+    flex: 1,
+    editable: true,
+  },
+
+  {
+    field: "expenseAmount",
+    headerName: "Amount",
+    type: "number",
+    flex: 1,
+    editable: true,
+  },
+];
 
 const useStyles = makeStyles({
   root: {
-    padding: "15px 15px",
+    padding: "15px 5px",
   },
 });
 const ExpenseScreen = () => {
@@ -39,11 +58,13 @@ const ExpenseScreen = () => {
     success: successExpenseDelete,
   } = useSelector((state) => state.expenseDelete);
   const [open, setOpen] = React.useState(false);
-
+  const [id, setId] = React.useState(null);
   React.useEffect(() => {
     dispatch(fetchExpenses());
   }, [dispatch, successExpenseDelete]);
-
+  React.useEffect(() => {
+    if (!open) setId(null);
+  }, [open]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -51,89 +72,159 @@ const ExpenseScreen = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const formatRowsData = () => {
+    let rows = expenses?.map((e) => {
+      return {
+        ...e,
 
+        id: e._id,
+        field: e?.field?.name,
+        category: e?.category?.expenseCategory,
+        expenseDate: dateFormater(e?.expenseDate),
+        handleClickOpen,
+
+        navigateFunc,
+        handleDelete,
+      };
+    });
+    if (!rows) return [];
+    return rows;
+  };
+  const navigateFunc = (id) => {
+    setId(id);
+  };
+  const handleDelete = (id) => {
+    dispatch(deleteExpense(id));
+  };
   return (
     <MainLayout>
-      <Typography variant="div">
-        <TableContainer component={Paper}>
-          <Typography variant="div">
-            <Typography className={classes.root} variant="h5">
-              Expenses
-            </Typography>
-            <Typography className={classes.root} variant="div">
-              <Button
-                onClick={() => {
-                  navigate("/expense");
-                  dispatch({ type: FETCH_EXPENSE_RESET });
-                  handleClickOpen();
-                }}
-                startIcon={<AddIcon />}
-                color="secondary"
-                variant="contained"
-              >
-                Add
-              </Button>
-            </Typography>
+      <div className="table__unresponsive">
+        <div className="page__title">
+          <Typography className={classes.root} variant="h5">
+            Expenses
           </Typography>
-          {(loading || loadingExpenseDelete) && <CircularProgress />}
-          {error && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {error}
-            </Alert>
-          )}
-          {errorExpenseDelete && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {errorExpenseDelete}
-            </Alert>
-          )}
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Source</TableCell>
-                <TableCell>Date of Expense</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell size="small" colSpan={2} align="center">
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {expenses?.map((expense) => (
-                <TableRow key={expense?._id}>
-                  <TableCell>{expense?.category?.expenseCategory}</TableCell>
-                  <TableCell>{dateFormater(expense?.expenseDate)}</TableCell>
-                  <TableCell>{expense?.expenseAmount}</TableCell>
-                  <TableCell size="small" align="right">
-                    <Button
-                      onClick={() => {
-                        navigate(`/expense/${expense._id}`);
-                        handleClickOpen();
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell size="small" align="left">
-                    <Button
-                      onClick={() => {
-                        console.log(expense._id);
-                        dispatch(deleteExpense(expense._id));
-                      }}
-                    >
-                      <DeleteIcon></DeleteIcon>
-                    </Button>
+        </div>
+        <div className="add__btn__container">
+          <Button
+            onClick={() => {
+              //navigate("/expense");
+              dispatch({ type: FETCH_EXPENSE_RESET });
+              handleClickOpen();
+            }}
+            startIcon={<AddIcon />}
+            color="secondary"
+            variant="contained"
+          >
+            Add
+          </Button>
+        </div>
+        {(loading || loadingExpenseDelete) && <CircularProgress />}
+        {error && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {error}
+          </Alert>
+        )}
+        {errorExpenseDelete && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {errorExpenseDelete}
+          </Alert>
+        )}
+        <MyDataGrid
+          cols={columns}
+          rows={formatRowsData()}
+          handleClickOpen={handleClickOpen}
+        />
+      </div>
+      <div className="table__responsive">
+        <Typography variant="div">
+          <TableContainer component={Paper}>
+            <Typography variant="div">
+              <Typography className={classes.root} variant="h5">
+                Expenses
+              </Typography>
+              <Typography className={classes.root} variant="div">
+                <Button
+                  onClick={() => {
+                    //navigate("/expense");
+                    dispatch({ type: FETCH_EXPENSE_RESET });
+                    handleClickOpen();
+                  }}
+                  startIcon={<AddIcon />}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </Typography>
+            </Typography>
+            {(loading || loadingExpenseDelete) && <CircularProgress />}
+            {error && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {error}
+              </Alert>
+            )}
+            {errorExpenseDelete && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {errorExpenseDelete}
+              </Alert>
+            )}
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Source</TableCell>
+                  <TableCell>Date of Expense</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell size="small" colSpan={2} align="center">
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <AddExpenseDialog
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
-          open={open}
-        ></AddExpenseDialog>
-      </Typography>
+              </TableHead>
+              <TableBody>
+                {expenses?.map((expense) => (
+                  <TableRow key={expense?._id}>
+                    <TableCell>{expense?.category?.expenseCategory}</TableCell>
+                    <TableCell>{dateFormater(expense?.expenseDate)}</TableCell>
+                    <TableCell>{expense?.expenseAmount}</TableCell>
+                    <TableCell size="small" align="right">
+                      <Button
+                        onClick={() => {
+                          //navigate(`/expense/${expense._id}`);
+                          setId(expense._id);
+                          handleClickOpen();
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell size="small" align="left">
+                      <Button
+                        onClick={() => {
+                          console.log(expense._id);
+                          dispatch(deleteExpense(expense._id));
+                        }}
+                      >
+                        <DeleteIcon></DeleteIcon>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Typography>
+      </div>
+      <AddExpenseDialog
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        open={open}
+        id={id}
+      ></AddExpenseDialog>
     </MainLayout>
   );
 };

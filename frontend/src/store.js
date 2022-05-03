@@ -36,6 +36,7 @@ import {
   addExpenseCategoryReducer,
   deleteExpenseCateogryReducer,
   expenseCategoriesReducer,
+  expenseCategoryReducer,
   updateExpenseCategroyReducer,
 } from "./reducers/expenseCategoryReducer";
 import {
@@ -125,7 +126,7 @@ const reducer = combineReducers({
 
   expenseCategories: expenseCategoriesReducer,
   expenseCategoryCreate: addExpenseCategoryReducer,
-  expenseCategory: addExpenseCategoryReducer,
+  expenseCategory: expenseCategoryReducer,
   expenseCategoryUpdate: updateExpenseCategroyReducer,
   expenseCategoryDelete: deleteExpenseCateogryReducer,
 

@@ -38,9 +38,9 @@ import {
 import { fetchFields } from "../../actions/fieldActions";
 import { fetchIncomeCategories } from "../../actions/incomeCategoryActions";
 
-export default function AddIncomeDialog({ handleClose, open }) {
+export default function AddIncomeDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const { error, loading, success } = useSelector(
     (state) => state.incomeCreate
   );
@@ -72,7 +72,7 @@ export default function AddIncomeDialog({ handleClose, open }) {
   const [incomeCategory, setIncomeCategory] = React.useState("");
   const [receipt, setReceipt] = React.useState("");
   const [customer, setCustomer] = React.useState("");
-  const [incomeDate, setIncomeDate] = React.useState(new Date());
+  const [incomeDate, setIncomeDate] = React.useState(null);
   React.useEffect(() => {
     if (success || successUpdate) {
       dispatch(fetchIncomes());
@@ -112,7 +112,7 @@ export default function AddIncomeDialog({ handleClose, open }) {
     incomeData.incomeAmount = incomeTrans;
     incomeData.receiptNo = receipt;
     incomeData.customerName = customer;
-    incomeData.incomeDate = formatDate(new Date(incomeDate));
+    incomeData.incomeDate = incomeDate;
     console.log(incomeData);
     if (!isUpdate) {
       dispatch(addIncome(incomeData));
@@ -162,6 +162,11 @@ export default function AddIncomeDialog({ handleClose, open }) {
           {error && (
             <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
               {error}
+            </Alert>
+          )}
+          {errorIncomeUpdate && (
+            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+              {errorIncomeUpdate}
             </Alert>
           )}
           <DialogContentText id="alert-dialog-description">

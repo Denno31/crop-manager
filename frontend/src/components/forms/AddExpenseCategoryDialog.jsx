@@ -32,7 +32,7 @@ export default function AddExpenseCategoryDialog({ handleClose, open }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { error, loading, success } = useSelector(
-    (state) => state.incomeCategoryCreate
+    (state) => state.expenseCategoryCreate
   );
   const {
     error: errorExpenseCategory,
@@ -55,8 +55,9 @@ export default function AddExpenseCategoryDialog({ handleClose, open }) {
       handleClose();
     }
     if (expenseCategory) {
+      console.log("Expense category here", expenseCategory);
       setIsUpdate(true);
-      setExpenseCategory(expenseCategory?.incomeCategory);
+      setExpenseCategory(expenseCategory?.expenseCategory);
     } else {
       setIsUpdate(false);
     }
@@ -71,14 +72,14 @@ export default function AddExpenseCategoryDialog({ handleClose, open }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const expenseCategory = {};
-    expenseCategory.expenseCategory = expensecategory;
+    const expenseCategoryData = {};
+    expenseCategoryData.expenseCategory = expensecategory;
 
     if (!isUpdate) {
-      dispatch(addExpenseCategory(expenseCategory));
+      dispatch(addExpenseCategory(expenseCategoryData));
     } else {
-      expenseCategory._id = id;
-      dispatch(updateExpenseCategory(expenseCategory));
+      expenseCategoryData._id = id;
+      dispatch(updateExpenseCategory(expenseCategoryData));
     }
   };
   return (
@@ -90,7 +91,7 @@ export default function AddExpenseCategoryDialog({ handleClose, open }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Add New Expense Category"}
+          {!id ? "Add New Expense Category" : "Update Expense Category"}
         </DialogTitle>
         <DialogContent>
           {(loading || loadingExpenseCategoryUpdate) && (
@@ -121,7 +122,7 @@ export default function AddExpenseCategoryDialog({ handleClose, open }) {
                 >
                   <TextField
                     label="Category name"
-                    name="incomeCategory"
+                    name="expenseCategory"
                     margin="normal"
                     required
                     fullWidth

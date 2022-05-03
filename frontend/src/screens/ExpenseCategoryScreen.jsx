@@ -41,7 +41,7 @@ const ExpenseCategoryScreen = () => {
     loading: loadingExpenseCategoryDelete,
     error: errorExpenseCategoryDelete,
     success: successExpenseCategoryDelete,
-  } = useSelector((state) => state.incomeCategoryDelete);
+  } = useSelector((state) => state.expenseCategoryDelete);
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -111,7 +111,7 @@ const ExpenseCategoryScreen = () => {
                   <TableCell size="small" align="right">
                     <Button
                       onClick={() => {
-                        navigate(`/incomecategories/${expensecategory._id}`);
+                        navigate(`/expensecategories/${expensecategory._id}`);
                         handleClickOpen();
                       }}
                     >
@@ -121,7 +121,6 @@ const ExpenseCategoryScreen = () => {
                   <TableCell size="small" align="left">
                     <Button
                       onClick={() => {
-                        console.log(expensecategory._id);
                         dispatch(deleteExpenseCategory(expensecategory._id));
                       }}
                     >

@@ -22,10 +22,29 @@ import moment from "moment";
 import { FETCH_INCOME_RESET } from "../constants/incomeConstants";
 import AddIncomeDialog from "../components/forms/AddIncomeDialog";
 import { dateFormater } from "../utils";
+import MyDataGrid from "../components/MyDataGrid";
+
+const columns = [
+  { field: "category", headerName: "Source", width: 150 },
+  {
+    field: "incomeDate",
+    headerName: "Date Of Income",
+    flex: 1,
+    editable: true,
+  },
+
+  {
+    field: "incomeAmount",
+    headerName: "Amount",
+    type: "number",
+    flex: 1,
+    editable: true,
+  },
+];
 
 const useStyles = makeStyles({
   root: {
-    padding: "15px 15px",
+    padding: "15px 5px",
   },
 });
 const IncomeScreen = () => {
@@ -39,11 +58,13 @@ const IncomeScreen = () => {
     success: successIncomeDelete,
   } = useSelector((state) => state.incomeDelete);
   const [open, setOpen] = React.useState(false);
-
+  const [id, setId] = React.useState(null);
   React.useEffect(() => {
     dispatch(fetchIncomes());
   }, [dispatch, successIncomeDelete]);
-
+  React.useEffect(() => {
+    if (!open) setId(null);
+  }, [open]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -51,89 +72,160 @@ const IncomeScreen = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const formatRowsData = () => {
+    let rows = incomes?.map((c) => {
+      return {
+        ...c,
 
+        id: c._id,
+        field: c?.field?.name,
+        category: c?.category?.incomeCategory,
+        incomeDate: dateFormater(c?.incomeDate),
+        handleClickOpen,
+
+        navigateFunc,
+        handleDelete,
+      };
+    });
+    if (!rows) return [];
+    return rows;
+  };
+  const navigateFunc = (id) => {
+    setId(id);
+  };
+  const handleDelete = (id) => {
+    dispatch(deleteIncome(id));
+  };
   return (
     <MainLayout>
-      <Typography variant="div">
-        <TableContainer component={Paper}>
-          <Typography variant="div">
-            <Typography className={classes.root} variant="h5">
-              Incomes
-            </Typography>
-            <Typography className={classes.root} variant="div">
-              <Button
-                onClick={() => {
-                  navigate("/income");
-                  dispatch({ type: FETCH_INCOME_RESET });
-                  handleClickOpen();
-                }}
-                startIcon={<AddIcon />}
-                color="secondary"
-                variant="contained"
-              >
-                Add
-              </Button>
-            </Typography>
+      <div className="table__unresponsive">
+        <div className="page__title">
+          <Typography className={classes.root} variant="h5">
+            Incomes
           </Typography>
-          {(loading || loadingIncomeDelete) && <CircularProgress />}
-          {error && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {error}
-            </Alert>
-          )}
-          {errorIncomeDelete && (
-            <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
-              {errorIncomeDelete}
-            </Alert>
-          )}
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Source</TableCell>
-                <TableCell>Date of Income</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell size="small" colSpan={2} align="center">
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {incomes?.map((income) => (
-                <TableRow key={income?._id}>
-                  <TableCell>{income?.category?.incomeCategory}</TableCell>
-                  <TableCell>{dateFormater(income?.incomeDate)}</TableCell>
-                  <TableCell>{income?.incomeAmount}</TableCell>
-                  <TableCell size="small" align="right">
-                    <Button
-                      onClick={() => {
-                        navigate(`/income/${income._id}`);
-                        handleClickOpen();
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell size="small" align="left">
-                    <Button
-                      onClick={() => {
-                        console.log(income._id);
-                        dispatch(deleteIncome(income._id));
-                      }}
-                    >
-                      <DeleteIcon></DeleteIcon>
-                    </Button>
+        </div>
+        <div className="add__btn__container">
+          <Button
+            onClick={() => {
+              //navigate("/income");
+              dispatch({ type: FETCH_INCOME_RESET });
+              handleClickOpen();
+            }}
+            startIcon={<AddIcon />}
+            color="secondary"
+            variant="contained"
+          >
+            Add
+          </Button>
+        </div>
+        {(loading || loadingIncomeDelete) && <CircularProgress />}
+        {error && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {error}
+          </Alert>
+        )}
+        {errorIncomeDelete && (
+          <Alert style={{ width: "80%", margin: "0 auto" }} severity="error">
+            {errorIncomeDelete}
+          </Alert>
+        )}
+        <MyDataGrid
+          cols={columns}
+          rows={formatRowsData()}
+          handleClickOpen={handleClickOpen}
+        />
+      </div>
+      <div className="table__responsive">
+        <Typography variant="div">
+          <TableContainer component={Paper}>
+            <Typography variant="div">
+              <Typography className={classes.root} variant="h5">
+                Incomes
+              </Typography>
+              <Typography className={classes.root} variant="div">
+                <Button
+                  onClick={() => {
+                    //navigate("/income");
+                    dispatch({ type: FETCH_INCOME_RESET });
+                    handleClickOpen();
+                  }}
+                  startIcon={<AddIcon />}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </Typography>
+            </Typography>
+            {(loading || loadingIncomeDelete) && <CircularProgress />}
+            {error && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {error}
+              </Alert>
+            )}
+            {errorIncomeDelete && (
+              <Alert
+                style={{ width: "80%", margin: "0 auto" }}
+                severity="error"
+              >
+                {errorIncomeDelete}
+              </Alert>
+            )}
+
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Source</TableCell>
+                  <TableCell>Date of Income</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell size="small" colSpan={2} align="center">
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <AddIncomeDialog
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
-          open={open}
-        ></AddIncomeDialog>
-      </Typography>
+              </TableHead>
+              <TableBody>
+                {incomes?.map((income) => (
+                  <TableRow key={income?._id}>
+                    <TableCell>{income?.category?.incomeCategory}</TableCell>
+                    <TableCell>{dateFormater(income?.incomeDate)}</TableCell>
+                    <TableCell>{income?.incomeAmount}</TableCell>
+                    <TableCell size="small" align="right">
+                      <Button
+                        onClick={() => {
+                          //navigate(`/income/${income._id}`);
+                          setId(income?._id);
+                          handleClickOpen();
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell size="small" align="left">
+                      <Button
+                        onClick={() => {
+                          console.log(income._id);
+                          dispatch(deleteIncome(income._id));
+                        }}
+                      >
+                        <DeleteIcon></DeleteIcon>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Typography>
+      </div>
+      <AddIncomeDialog
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        open={open}
+        id={id}
+      ></AddIncomeDialog>
     </MainLayout>
   );
 };

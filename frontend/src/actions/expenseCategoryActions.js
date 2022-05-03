@@ -37,6 +37,7 @@ export const fetchExpenseCategory = (id) => async (dispatch) => {
   try {
     const { data } = await Axios.get(`/api/expensecategory/${id}`);
     dispatch({ type: FETCH_EXPENSE_CATEGORY_SUCCESS, payload: data });
+    console.log(data);
   } catch (error) {
     dispatch({
       type: FETCH_EXPENSE_CATEGORY_FAIL,
