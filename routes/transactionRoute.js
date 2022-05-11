@@ -23,7 +23,7 @@ router.get(
   "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find().populate("employeeId");
     res.send(transactions);
   })
 );

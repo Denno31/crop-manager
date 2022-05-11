@@ -20,6 +20,7 @@ import AdminRoute from "./components/AdminRoute";
 import UsersScreen from "./screens/UsersScreen";
 import AddUserScreen from "./screens/AddUserScreen";
 import EmployeeScreen from "./screens/EmployeeScreen";
+import TransactionScreen from "./screens/TransactionScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -261,6 +262,15 @@ function App() {
           element={
             <PrivateRoute>
               <EmployeeScreen />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          exact
+          path="/transactions"
+          element={
+            <PrivateRoute>
+              <TransactionScreen />
             </PrivateRoute>
           }
         ></Route>

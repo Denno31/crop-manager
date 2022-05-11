@@ -4,10 +4,12 @@ const transactionSchema = mongoose.Schema(
   {
     transactionId: {
       type: String,
+      uniquer: true,
       required: true,
     },
     employeeId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
       required: true,
     },
     amount: {

@@ -96,6 +96,13 @@ import {
   employeesReducer,
   updateEmployeeReducer,
 } from "./reducers/employeeReducers";
+import {
+  addTransactionReducer,
+  deleteTransactionReducer,
+  transactionReducer,
+  transactionsReducer,
+  updateTransactionReducer,
+} from "./reducers/paymentsReducers";
 
 const initialState = {
   userSignin: {
@@ -184,6 +191,12 @@ const reducer = combineReducers({
   employee: employeeReducer,
   employeeUpdate: updateEmployeeReducer,
   employeeDelete: deleteEmployeeReducer,
+
+  transactions: transactionsReducer,
+  transactionCreate: addTransactionReducer,
+  transaction: transactionReducer,
+  transactionUpdate: updateTransactionReducer,
+  transactionDelete: deleteTransactionReducer,
 
   transactionSummary: transactionSummaryReducer,
 });
