@@ -19,6 +19,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import UsersScreen from "./screens/UsersScreen";
 import AddUserScreen from "./screens/AddUserScreen";
+import EmployeeScreen from "./screens/EmployeeScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -251,6 +252,15 @@ function App() {
           element={
             <PrivateRoute>
               <AddUserScreen />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          exact
+          path="/employees"
+          element={
+            <PrivateRoute>
+              <EmployeeScreen />
             </PrivateRoute>
           }
         ></Route>

@@ -9,6 +9,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import BuildIcon from "@mui/icons-material/Build";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NaturePeopleIcon from "@mui/icons-material/NaturePeople";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Link } from "react-router-dom";
 
 export default function NestedList() {
@@ -16,26 +17,38 @@ export default function NestedList() {
   const [openActivityList, setOpenActivityList] = React.useState(false);
   const [openTransactions, setOpenTransactions] = React.useState(false);
   const [openFarmSetup, setOpenFarmSetup] = React.useState(false);
+  const [openPayroll, setOpenPayroll] = React.useState(false);
   const handleClick = () => {
     setOpenCropList(!openCropList);
     setOpenActivityList(false);
     setOpenTransactions(false);
     setOpenFarmSetup(false);
+    setOpenPayroll(false);
   };
   const handleActivityList = () => {
     setOpenActivityList(!openActivityList);
     setOpenCropList(false);
     setOpenTransactions(false);
     setOpenFarmSetup(false);
+    setOpenPayroll(false);
   };
   const handleOpenFarmSetup = () => {
     setOpenFarmSetup(!openFarmSetup);
     setOpenActivityList(false);
     setOpenCropList(false);
     setOpenTransactions(false);
+    setOpenPayroll(false);
   };
   const handleOpenTransactions = () => {
     setOpenTransactions(!openTransactions);
+    setOpenCropList(false);
+    setOpenActivityList(false);
+    setOpenFarmSetup(false);
+    setOpenPayroll(false);
+  };
+  const handleOpenPayroll = () => {
+    setOpenPayroll(!openPayroll);
+    setOpenTransactions(false);
     setOpenCropList(false);
     setOpenActivityList(false);
     setOpenFarmSetup(false);
@@ -151,6 +164,27 @@ export default function NestedList() {
         </ListItemIcon>
         <ListItemText primary="Users" />
       </ListItemButton>
+      {/* payroll */}
+      <ListItemButton onClick={handleOpenPayroll}>
+        <ListItemIcon>
+          <AccountBalanceIcon />
+        </ListItemIcon>
+        <ListItemText primary="Payroll" />
+      </ListItemButton>
+      <Collapse in={openPayroll} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employees">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Employees" />
+          </ListItemButton>
+        </List>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/transactions">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Transactions" />
+          </ListItemButton>
+        </List>{" "}
+      </Collapse>
     </>
   );
 }

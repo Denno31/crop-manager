@@ -89,6 +89,13 @@ import {
   updateTaskReducer,
 } from "./reducers/taskReducers";
 import { transactionSummaryReducer } from "./reducers/transactionsReducer";
+import {
+  addEmployeeReducer,
+  deleteEmployeeReducer,
+  employeeReducer,
+  employeesReducer,
+  updateEmployeeReducer,
+} from "./reducers/employeeReducers";
 
 const initialState = {
   userSignin: {
@@ -171,6 +178,12 @@ const reducer = combineReducers({
   task: taskReducer,
   taskUpdate: updateTaskReducer,
   taskDelete: deleteTaskReducer,
+
+  employees: employeesReducer,
+  employeeCreate: addEmployeeReducer,
+  employee: employeeReducer,
+  employeeUpdate: updateEmployeeReducer,
+  employeeDelete: deleteEmployeeReducer,
 
   transactionSummary: transactionSummaryReducer,
 });
