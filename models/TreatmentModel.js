@@ -13,6 +13,7 @@ const treatmentSchema = mongoose.Schema(
     planting: { type: mongoose.Schema.Types.ObjectId, ref: "Planting" },
     productUsed: { type: String },
     quantityOfProduct: { type: Number },
+    units: { type: String },
     shortNotes: { type: String },
   },
   {

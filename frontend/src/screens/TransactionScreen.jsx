@@ -230,7 +230,6 @@ const TransactionScreen = () => {
                     <TableCell size="small" align="left">
                       <Button
                         onClick={() => {
-                          console.log(transaction._id);
                           dispatch(deleteTransaction(transaction._id));
                         }}
                       >

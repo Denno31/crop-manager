@@ -75,7 +75,7 @@ export default function AddPlantingDialog({ handleClose, open, id }) {
   const [seedOrigin, setSeedOrigin] = React.useState("");
   const [distanceBetweenPlants, setDistanceBetweenPlants] =
     React.useState(null);
-  const [harvestUnit, setHarvestUnit] = React.useState("");
+
   const [shortNotes, setShortNotes] = React.useState("");
   const [isUpdate, setIsUpdate] = React.useState(false);
   React.useEffect(() => {
@@ -131,7 +131,7 @@ export default function AddPlantingDialog({ handleClose, open, id }) {
     plantingData.seedLotNumber = seedLotNumber;
     plantingData.seedOrigin = seedOrigin;
     plantingData.seedType = seedType;
-    console.log(plantingData);
+
     if (!isUpdate) {
       dispatch(addPlanting(plantingData));
     } else {
@@ -189,7 +189,6 @@ export default function AddPlantingDialog({ handleClose, open, id }) {
                         inputFormat="MM/dd/yyyy"
                         value={plantingDate}
                         onChange={(newValue) => {
-                          console.log(newValue);
                           setPlantingDate(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}
@@ -250,7 +249,6 @@ export default function AddPlantingDialog({ handleClose, open, id }) {
                         inputFormat="MM/dd/yyyy"
                         value={harvestDate}
                         onChange={(newValue) => {
-                          console.log(newValue);
                           setHarvestDate(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}

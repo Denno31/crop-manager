@@ -198,6 +198,7 @@ router.post(
       planting: req.body.planting,
       productUsed: req.body.productUsed,
       quantityOfProduct: req.body.quantityOfProduct,
+      units: req.body.units,
       shortNotes: req.body.shortNotes,
     });
     const savedTreatment = await treatment.save();
@@ -235,6 +236,7 @@ router.put(
     treatment.productUsed = req.body.productUsed;
     treatment.quantityOfProduct =
       req.body.quantityOfProduct || treatment.quantityOfProduct;
+    treatment.units = req.body.units || treatment.units;
     treatment.shortNotes = req.body.shortNotes || treatment.shortNotes;
     const updatedTreatment = await treatment.save();
     res.send({ message: "Treatment updated", treatment: updatedTreatment });

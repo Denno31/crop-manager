@@ -74,18 +74,9 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
   const [type, setType] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [field, setField] = React.useState("");
-  const [qtyTreatmented, setQtyTreatmented] = React.useState("");
+  const [units, setUnits] = React.useState("");
   const [productUsed, setProductUsed] = React.useState("");
   const [productQty, setProductQty] = React.useState("");
-  const [batch, setBatch] = React.useState("");
-  const [treatmentQuality, setTreatmentQuality] = React.useState("");
-  const [isFinal, setIsFinal] = React.useState(false);
-  const [qtyRejected, setQtyRejected] = React.useState("");
-  const [unitCost, setUnitCost] = React.useState(undefined);
-  const [incomeFromTreatment, setIncomeFromTreatment] =
-    React.useState(undefined);
-
-  React.useState(undefined);
 
   const [shortNotes, setShortNotes] = React.useState("");
   const [isUpdate, setIsUpdate] = React.useState(false);
@@ -133,6 +124,7 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
     treatmentData.productUsed = productUsed;
     treatmentData.planting = null;
     treatmentData.quantityOfProduct = productQty;
+    treatmentData.units = units;
 
     console.log(treatmentData);
     if (!isUpdate) {
@@ -278,7 +270,15 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
                     value={productQty}
                     onChange={(e) => setProductQty(e.target.value)}
                   />
-
+                  <TextField
+                    label="Units"
+                    name="units"
+                    margin="normal"
+                    required
+                    fullWidth
+                    value={units}
+                    onChange={(e) => setUnits(e.target.value)}
+                  />
                   <TextField
                     margin="normal"
                     required

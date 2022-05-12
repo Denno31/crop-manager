@@ -46,6 +46,12 @@ const columns = [
     editable: true,
   },
   {
+    field: "units",
+    headerName: "Units",
+    flex: 1,
+    editable: true,
+  },
+  {
     field: "status",
     headerName: "Status",
     type: "number",
