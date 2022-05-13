@@ -15,7 +15,10 @@ const treatmentSchema = mongoose.Schema(
     quantityOfProduct: { type: Number },
     units: { type: String },
     shortNotes: { type: String },
+    phi: { type: String },
+    activateIngredient: { type: String },
   },
+
   {
     timestamps: true,
   }

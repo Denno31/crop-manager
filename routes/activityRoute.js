@@ -199,6 +199,8 @@ router.post(
       productUsed: req.body.productUsed,
       quantityOfProduct: req.body.quantityOfProduct,
       units: req.body.units,
+      phi: req.body.phi,
+      activateIngredient: req.body.activateIngredient,
       shortNotes: req.body.shortNotes,
     });
     const savedTreatment = await treatment.save();
@@ -238,6 +240,9 @@ router.put(
       req.body.quantityOfProduct || treatment.quantityOfProduct;
     treatment.units = req.body.units || treatment.units;
     treatment.shortNotes = req.body.shortNotes || treatment.shortNotes;
+    treatment.phi = req.body.phi || treatment.phi;
+    treatment.activateIngredient =
+      req.body.activateIngredient || treatment.activateIngredient;
     const updatedTreatment = await treatment.save();
     res.send({ message: "Treatment updated", treatment: updatedTreatment });
   })

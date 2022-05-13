@@ -43,7 +43,7 @@ import { fetchPlantings } from "../../actions/plantingActions";
 export default function AddTreatmentDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
   // const { id } = useParams();
-  console.log(id);
+  //console.log(id);
   const { error, loading, success } = useSelector(
     (state) => state.treatmentCreate
   );
@@ -77,6 +77,8 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
   const [units, setUnits] = React.useState("");
   const [productUsed, setProductUsed] = React.useState("");
   const [productQty, setProductQty] = React.useState("");
+  const [phi, setPhi] = React.useState("");
+  const [activateIngredient, setActivateIngredient] = React.useState("");
 
   const [shortNotes, setShortNotes] = React.useState("");
   const [isUpdate, setIsUpdate] = React.useState(false);
@@ -95,7 +97,8 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
       setField(treatment?.field);
       setProductUsed(treatment?.productUsed);
       setProductQty(treatment?.quantityOfProduct);
-
+      setActivateIngredient(treatment?.activateIngredient);
+      setPhi(treatment?.phi);
       setShortNotes(treatment?.shortNotes);
     } else {
       dispatch({ type: ADD_TREATMENT_RESET });
@@ -125,7 +128,8 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
     treatmentData.planting = null;
     treatmentData.quantityOfProduct = productQty;
     treatmentData.units = units;
-
+    treatmentData.phi = phi;
+    treatmentData.activateIngredient = activateIngredient;
     console.log(treatmentData);
     if (!isUpdate) {
       dispatch(addTreatment(treatmentData));
@@ -271,13 +275,31 @@ export default function AddTreatmentDialog({ handleClose, open, id }) {
                     onChange={(e) => setProductQty(e.target.value)}
                   />
                   <TextField
-                    label="Units"
+                    label="Product Units"
                     name="units"
                     margin="normal"
                     required
                     fullWidth
                     value={units}
                     onChange={(e) => setUnits(e.target.value)}
+                  />
+                  <TextField
+                    label="PHI"
+                    name="phi"
+                    margin="normal"
+                    required
+                    fullWidth
+                    value={phi}
+                    onChange={(e) => setPhi(e.target.value)}
+                  />
+                  <TextField
+                    label="Activate ingredient"
+                    name="activateIngredient"
+                    margin="normal"
+                    required
+                    fullWidth
+                    value={activateIngredient}
+                    onChange={(e) => setActivateIngredient(e.target.value)}
                   />
                   <TextField
                     margin="normal"

@@ -28,7 +28,7 @@ import { addCrop } from "../../actions/cropActions";
 
 export default function AddCropDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  console.log(id);
+  //console.log(id);
   const { error, loading, success } = useSelector((state) => state.cropCreate);
   const {
     error: errorCrop,

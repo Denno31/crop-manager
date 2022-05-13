@@ -36,7 +36,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 export default function AddTransactionDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  console.log(id);
+
   const { error, loading, success } = useSelector(
     (state) => state.transactionCreate
   );

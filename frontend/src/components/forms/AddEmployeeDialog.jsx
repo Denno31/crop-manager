@@ -32,7 +32,7 @@ import { addEmployee } from "../../actions/employeeActions";
 
 export default function AddEmployeeDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
-  console.log(id);
+
   const { error, loading, success } = useSelector(
     (state) => state.employeeCreate
   );

@@ -34,39 +34,44 @@ const columns = [
   {
     field: "productUsed",
     headerName: "Product",
-    type: "number",
+
     flex: 1,
     editable: true,
   },
   {
     field: "quantityOfProduct",
     headerName: "Quantity",
-    type: "number",
+
     flex: 1,
     editable: true,
   },
   {
     field: "units",
-    headerName: "Units",
+    headerName: "Qty Units",
+    flex: 1,
+    editable: true,
+  },
+  {
+    field: "phi",
+    headerName: "PHI",
+
+    flex: 1,
+    editable: true,
+  },
+  {
+    field: "activateIngredient",
+    headerName: "Activate Ingr.",
+
     flex: 1,
     editable: true,
   },
   {
     field: "status",
     headerName: "Status",
-    type: "number",
+
     flex: 1,
     editable: true,
   },
-  // {
-  //   field: "fullName",
-  //   headerName: "Full name",
-  //   description: "This column has a value getter and is not sortable.",
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  // },
 ];
 const useStyles = makeStyles({
   root: {
@@ -110,6 +115,7 @@ const TreatmentScreen = () => {
         id: t._id,
         handleClickOpen,
         treatmentDate: dateFormater(t.treatmentDate),
+
         navigateFunc,
         handleDelete,
       };
