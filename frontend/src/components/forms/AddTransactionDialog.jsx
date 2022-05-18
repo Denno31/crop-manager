@@ -51,15 +51,15 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
     success: successUpdate,
     transaction: transactionUpdate,
   } = useSelector((state) => state.transactionUpdate);
-  const [transactionName, setTransactionName] = React.useState("");
+
   const [transactionNumber, setTransactionNumber] = React.useState("");
-  const [phoneNo, setPhoneNo] = React.useState(undefined);
-  const [designation, setDesignation] = React.useState("");
+
   const [salary, setSalary] = React.useState("");
-  const [address, setAddress] = React.useState("");
+
   const [employee, setEmployee] = React.useState("");
   const [month, setMonth] = React.useState(null);
-  const [year, setYear] = React.useState("");
+
+  const [paymentDate, setPayDate] = React.useState(null);
   const [isUpdate, setIsUpdate] = React.useState("");
   const {
     loading: loadingEmployee,
@@ -80,6 +80,7 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
       setEmployee(transaction?.employeeId);
       setSalary(transaction?.amount);
       setMonth(transaction?.month);
+      setPayDate(transaction?.paymentDate || null);
     } else {
       setIsUpdate(false);
     }
@@ -94,17 +95,19 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
     transactionData.amount = salary;
     transactionData.employeeId = employee;
     transactionData.month = month;
-
+    transactionData.paymentDate = paymentDate;
     if (!isUpdate) {
       dispatch(addTransaction(transactionData));
     } else {
+      console.log(transactionData);
       transactionData._id = id;
       dispatch(updateTransaction(transactionData));
     }
   };
   const populateSalary = () => {
+    console.log("Employees: ", employees);
     let emp = employees.find((e) => e._id === employee);
-    setSalary(emp.salary);
+    setSalary(emp?.salary);
   };
   return (
     <div>
@@ -191,6 +194,18 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
                         onChange={(newValue) => {
                           console.log(newValue);
                           setMonth(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                  <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DesktopDatePicker
+                        label="Payment Date"
+                        value={paymentDate}
+                        onChange={(newValue) => {
+                          setPayDate(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}
                       />

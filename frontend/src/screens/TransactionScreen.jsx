@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
-import { dateFormaterMMYY } from "../utils";
+import { dateFormater, dateFormaterMMYY } from "../utils";
 import {
   deleteTransaction,
   fetchTransaction,
@@ -47,6 +47,13 @@ const columns = [
   {
     field: "month",
     headerName: "Month",
+
+    flex: 1,
+    editable: true,
+  },
+  {
+    field: "paymentDate",
+    headerName: "Transaction Date",
 
     flex: 1,
     editable: true,
@@ -102,6 +109,7 @@ const TransactionScreen = () => {
         handleClickOpen,
         employee: c.employeeId.name,
         month: dateFormaterMMYY(c.month),
+        paymentDate: dateFormater(c.paymentDate),
         navigateFunc,
         handleDelete,
       };

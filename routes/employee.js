@@ -9,7 +9,6 @@ router.post(
   "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    console.log(req.body);
     const employee = new Employee({
       name: req.body.name,
       employeeNo: req.body.employeeNo,
@@ -17,6 +16,7 @@ router.post(
       address: req.body.address,
       designation: req.body.designation,
       salary: req.body.salary,
+      joinDate: req.body.joinDate,
     });
     const savedEmployee = await employee.save();
     res.send({ employee: savedEmployee, message: "Employee saved" });
@@ -49,6 +49,7 @@ router.put(
     employee.address = req.body.address || employee.address;
     employee.designation = req.body.designation || employee.designation;
     employee.salary = req.body.salary || employee.salary;
+    employee.joinDate = req.body.joinDate || employee.joinDate;
     const savedEmployee = await employee.save();
     res.send(savedEmployee);
   })

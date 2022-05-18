@@ -14,6 +14,7 @@ router.post(
       employeeId: req.body.employeeId,
       amount: req.body.amount,
       month: req.body.month,
+      paymentDate: req.body.paymentDate,
     });
     const savedTransaction = await transaction.save();
     res.send({ transaction: savedTransaction, message: "Transaction saved" });
@@ -47,6 +48,7 @@ router.put(
     transaction.employeeId = req.body.employeeId || transaction.employeeId;
     transaction.amount = req.body.amount || transaction.amount;
     transaction.month = req.body.month || transaction.month;
+    transaction.paymentDate = req.body.paymentDate || transaction.paymentDate;
     const savedTransaction = await transaction.save();
     res.send({ message: "Transaction saved" });
   })

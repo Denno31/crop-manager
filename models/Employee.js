@@ -19,6 +19,7 @@ const employeeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    joinDate: { type: String, required: true },
   },
   {
     timestamps: true,

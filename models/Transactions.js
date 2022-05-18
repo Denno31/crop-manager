@@ -20,6 +20,10 @@ const transactionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    paymentDate: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

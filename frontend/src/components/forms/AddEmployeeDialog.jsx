@@ -29,6 +29,9 @@ import {
 } from "../../constants/employeeConstants";
 import { useParams } from "react-router-dom";
 import { addEmployee } from "../../actions/employeeActions";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 export default function AddEmployeeDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
@@ -54,6 +57,7 @@ export default function AddEmployeeDialog({ handleClose, open, id }) {
   const [salary, setSalary] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isUpdate, setIsUpdate] = React.useState("");
+  const [startDate, setStartDate] = React.useState(null);
 
   React.useEffect(() => {
     if (success || successUpdate) {
@@ -70,6 +74,7 @@ export default function AddEmployeeDialog({ handleClose, open, id }) {
       setSalary(employee?.salary);
       setDesignation(employee?.designation);
       setAddress(employee?.address);
+      setStartDate(employee?.joinDate);
     } else {
       setIsUpdate(false);
     }
@@ -84,6 +89,7 @@ export default function AddEmployeeDialog({ handleClose, open, id }) {
     employeeData.phone = phoneNo;
     employeeData.address = address;
     employeeData.employeeNo = employeeNumber;
+    employeeData.joinDate = startDate;
     if (!isUpdate) {
       dispatch(addEmployee(employeeData));
     } else {
@@ -158,6 +164,18 @@ export default function AddEmployeeDialog({ handleClose, open, id }) {
                     value={phoneNo}
                     onChange={(e) => setPhoneNo(e.target.value)}
                   />
+                  <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DesktopDatePicker
+                        label="Start Date"
+                        value={startDate}
+                        onChange={(newValue) => {
+                          setStartDate(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
                   <TextField
                     label="Designation"
                     name="designation"

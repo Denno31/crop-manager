@@ -25,6 +25,7 @@ import {
 import AddEmployeeDialog from "../components/forms/AddEmployeeDialog";
 import { FETCH_EMPLOYEE_RESET } from "../constants/employeeConstants";
 import MyDataGrid from "../components/MyDataGrid";
+import { dateFormater } from "../utils";
 
 const columns = [
   { field: "employeeNo", headerName: "Employee No:", width: 150 },
@@ -34,7 +35,11 @@ const columns = [
     flex: 1,
     editable: true,
   },
-
+  {
+    field: "joinDate",
+    headerName: "Start Date",
+    flex: 1,
+  },
   {
     field: "phone",
     headerName: "Phone",
@@ -105,6 +110,7 @@ const EmployeeScreen = () => {
         id: c._id,
         handleClickOpen,
         phone: c.phone.toString(),
+        joinDate: dateFormater(c?.joinDate),
         navigateFunc,
         handleDelete,
       };
