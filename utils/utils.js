@@ -34,5 +34,8 @@ exports.getMonthCustom = (date) => {
   if (!date) return undefined;
 
   let myDate = new Date(date.split("").slice(0, 10).join(""));
-  return myDate.getMonth() + 1;
+  let day = (myDate.getMonth() + 1).toString();
+  let year = myDate.getFullYear().toString();
+  let dY = year + day;
+  return parseInt(dY);
 };
