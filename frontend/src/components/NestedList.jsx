@@ -179,6 +179,12 @@ export default function NestedList() {
           </ListItemButton>
         </List>
         <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/attendance">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Attendance" />
+          </ListItemButton>
+        </List>
+        <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/transactions">
             <ListItemIcon></ListItemIcon>
             <ListItemText primary="Transactions" />

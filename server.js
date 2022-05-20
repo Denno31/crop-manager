@@ -13,6 +13,7 @@ const varietyRoute = require("./routes/varietyRoutes.js");
 const activityRoutes = require("./routes/activityRoute.js");
 const employeeRoutes = require("./routes/employee");
 const transactionRoutes = require("./routes/transactionRoute");
+const attendanceRoutes = require("./routes/attendanceRoutes");
 const app = express();
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/api/expense", expenseRoute);
 app.use("/api/variety", varietyRoute);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/transaction", transactionRoutes);
+app.use("/api/attendance", attendanceRoutes);
 // serve static files
 app.use(express.static("frontend/build"));
 app.get("*", (req, res) => {

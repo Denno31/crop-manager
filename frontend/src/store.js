@@ -103,6 +103,13 @@ import {
   transactionsReducer,
   updateTransactionReducer,
 } from "./reducers/paymentsReducers";
+import {
+  addAttendanceReducer,
+  attendanceReducer,
+  attendancesReducer,
+  deleteAttendanceReducer,
+  updateAttendanceReducer,
+} from "./reducers/attendanceReducers";
 
 const initialState = {
   userSignin: {
@@ -197,6 +204,12 @@ const reducer = combineReducers({
   transaction: transactionReducer,
   transactionUpdate: updateTransactionReducer,
   transactionDelete: deleteTransactionReducer,
+
+  attendances: attendancesReducer,
+  attendanceCreate: addAttendanceReducer,
+  attendance: attendanceReducer,
+  attendanceUpdate: updateAttendanceReducer,
+  attendanceDelete: deleteAttendanceReducer,
 
   transactionSummary: transactionSummaryReducer,
 });

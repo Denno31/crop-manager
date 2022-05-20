@@ -20,6 +20,11 @@ const transactionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    yearMonth: {
+      type: Number,
+      ref: "Attendance",
+      required: true,
+    },
     paymentDate: {
       type: String,
       required: true,

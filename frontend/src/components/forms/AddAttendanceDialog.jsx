@@ -15,44 +15,44 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import {
-  fetchTransactions,
-  fetchTransaction,
-  updateTransaction,
-} from "../../actions/transactionActions";
+  fetchAttendances,
+  fetchAttendance,
+  updateAttendance,
+} from "../../actions/attendanceActions";
 
 import { CardContent, TextField } from "@mui/material";
 import { addField } from "../../actions/fieldActions";
 import {
-  ADD_TRANSACTION_RESET,
-  FETCH_TRANSACTION_RESET,
-  UPDATE_TRANSACTION_RESET,
-} from "../../constants/transactionConstants";
-import { useParams } from "react-router-dom";
-import { addTransaction } from "../../actions/transactionActions";
+  ADD_ATTENDANCE_RESET,
+  FETCH_ATTENDANCE_RESET,
+  UPDATE_ATTENDANCE_RESET,
+} from "../../constants/attendanceConstants";
+
+import { addAttendance } from "../../actions/attendanceActions";
 import { fetchEmployees } from "../../actions/employeeActions";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-export default function AddTransactionDialog({ handleClose, open, id }) {
+export default function AddAttendanceDialog({ handleClose, open, id }) {
   const dispatch = useDispatch();
 
   const { error, loading, success } = useSelector(
-    (state) => state.transactionCreate
+    (state) => state.attendanceCreate
   );
   const {
-    error: errorTransaction,
-    loading: loadingTransaction,
-    transaction,
-  } = useSelector((state) => state.transaction);
+    error: errorAttendance,
+    loading: loadingAttendance,
+    attendance,
+  } = useSelector((state) => state.attendance);
   const {
-    error: errorTransactionUpdate,
-    loading: loadingTransactionUpdate,
+    error: errorAttendanceUpdate,
+    loading: loadingAttendanceUpdate,
     success: successUpdate,
-    transaction: transactionUpdate,
-  } = useSelector((state) => state.transactionUpdate);
+    attendance: attendanceUpdate,
+  } = useSelector((state) => state.attendanceUpdate);
 
-  const [transactionNumber, setTransactionNumber] = React.useState("");
+  const [attendanceNumber, setAttendanceNumber] = React.useState("");
 
   const [salary, setSalary] = React.useState("");
 
@@ -68,40 +68,37 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
   } = useSelector((state) => state.employees);
   React.useEffect(() => {
     if (success || successUpdate) {
-      dispatch(fetchTransactions());
-      dispatch({ type: ADD_TRANSACTION_RESET });
-      dispatch({ type: UPDATE_TRANSACTION_RESET });
+      dispatch(fetchAttendances());
+      dispatch({ type: ADD_ATTENDANCE_RESET });
+      dispatch({ type: UPDATE_ATTENDANCE_RESET });
       handleClose();
     }
-    if (transaction) {
+    if (attendance) {
       setIsUpdate(true);
 
-      setTransactionNumber(transaction?.transactionId);
-      setEmployee(transaction?.employeeId);
-      setSalary(transaction?.amount);
-      setMonth(transaction?.month);
-      setPayDate(transaction?.paymentDate || null);
+      setEmployee(attendance?.eid?._id);
+
+      setMonth(attendance?.month);
     } else {
       setIsUpdate(false);
     }
-  }, [success, handleClose, dispatch, id, transaction, successUpdate]);
+  }, [success, handleClose, dispatch, id, attendance, successUpdate]);
   React.useEffect(() => {
     dispatch(fetchEmployees());
   }, [dispatch]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const transactionData = {};
-    transactionData.transactionId = transactionNumber;
-    transactionData.amount = salary;
-    transactionData.employeeId = employee;
-    transactionData.month = month;
-    transactionData.paymentDate = paymentDate;
+    const attendanceData = {};
+
+    attendanceData.eid = employee;
+    attendanceData.month = month;
+
     if (!isUpdate) {
-      dispatch(addTransaction(transactionData));
+      dispatch(addAttendance(attendanceData));
     } else {
-      console.log(transactionData);
-      transactionData._id = id;
-      dispatch(updateTransaction(transactionData));
+      console.log(attendanceData);
+      attendanceData._id = id;
+      dispatch(updateAttendance(attendanceData));
     }
   };
   const populateSalary = () => {
@@ -118,10 +115,10 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {!id ? "Add New Transaction" : "Update Transaction"}
+          {!id ? "Add New Attendance" : "Update Attendance"}
         </DialogTitle>
         <DialogContent>
-          {(loading || loadingTransactionUpdate) && (
+          {(loading || loadingAttendanceUpdate) && (
             <div
               styles={{
                 display: "flex",
@@ -147,15 +144,6 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
                   noValidate
                   sx={{ mt: 1 }}
                 >
-                  <TextField
-                    label="Transaction ID"
-                    name="transactionNumber"
-                    margin="normal"
-                    required
-                    fullWidth
-                    value={transactionNumber}
-                    onChange={(e) => setTransactionNumber(e.target.value)}
-                  />
                   <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
                     <InputLabel id="employee">employee</InputLabel>
                     <Select
@@ -174,16 +162,7 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
                       ))}
                     </Select>
                   </FormControl>
-                  <TextField
-                    label="Amount"
-                    name="amount"
-                    margin="normal"
-                    type="number"
-                    required
-                    fullWidth
-                    value={salary}
-                    onChange={(e) => setSalary(e.target.value)}
-                  />
+
                   <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DesktopDatePicker
@@ -194,18 +173,6 @@ export default function AddTransactionDialog({ handleClose, open, id }) {
                         onChange={(newValue) => {
                           console.log(newValue);
                           setMonth(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                  <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DesktopDatePicker
-                        label="Payment Date"
-                        value={paymentDate}
-                        onChange={(newValue) => {
-                          setPayDate(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}
                       />

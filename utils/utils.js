@@ -29,3 +29,10 @@ exports.isAuth = (req, res, next) => {
     res.status(401).send({ message: "No Token" });
   }
 };
+
+exports.getMonthCustom = (date) => {
+  if (!date) return undefined;
+
+  let myDate = new Date(date.split("").slice(0, 10).join(""));
+  return myDate.getMonth() + 1;
+};
