@@ -14,6 +14,8 @@ const activityRoutes = require("./routes/activityRoute.js");
 const employeeRoutes = require("./routes/employee");
 const transactionRoutes = require("./routes/transactionRoute");
 const attendanceRoutes = require("./routes/attendanceRoutes");
+const itemRoutes = require("./routes/itemRoute");
+
 const app = express();
 dotenv.config();
 
@@ -44,11 +46,12 @@ app.use("/api/variety", varietyRoute);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/items", itemRoutes);
 // serve static files
-app.use(express.static("frontend/build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-});
+// app.use(express.static("frontend/build"));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+// });
 app.use((err, req, res, next) => {
   console.log(err.message);
   res.status(500).send({ message: err.message });

@@ -110,6 +110,13 @@ import {
   deleteAttendanceReducer,
   updateAttendanceReducer,
 } from "./reducers/attendanceReducers";
+import {
+  addItemReducer,
+  deleteItemReducer,
+  itemReducer,
+  itemsReducer,
+  updateItemReducer,
+} from "./reducers/itemReducers";
 
 const initialState = {
   userSignin: {
@@ -212,6 +219,12 @@ const reducer = combineReducers({
   attendanceDelete: deleteAttendanceReducer,
 
   transactionSummary: transactionSummaryReducer,
+
+  items: itemsReducer,
+  itemCreate: addItemReducer,
+  item: itemReducer,
+  itemUpdate: updateItemReducer,
+  itemDelete: deleteItemReducer,
 });
 const store = createStore(
   reducer,

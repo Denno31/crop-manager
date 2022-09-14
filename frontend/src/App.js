@@ -22,6 +22,7 @@ import AddUserScreen from "./screens/AddUserScreen";
 import EmployeeScreen from "./screens/EmployeeScreen";
 import TransactionScreen from "./screens/TransactionScreen";
 import AttendanceScreen from "./screens/AttendanceScreen";
+import InventoryScreen from "./screens/InventoryScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -298,6 +299,14 @@ function App() {
           element={
             <AdminRoute>
               <HomeScreen />
+            </AdminRoute>
+          }
+        ></Route>
+        <Route
+          path="/inventory"
+          element={
+            <AdminRoute>
+              <InventoryScreen />
             </AdminRoute>
           }
         ></Route>
