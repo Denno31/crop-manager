@@ -2,6 +2,7 @@ import * as React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import renderActionsButton from "./renderActionsButton";
+import RenderStockButton from "./RenderStockButton";
 
 const renderDetailsButton = (params) => {
   return (
@@ -80,6 +81,13 @@ export default function MyDataGrid(props) {
         rows={props.rows}
         columns={[
           ...props.cols,
+          {
+            field: "Add/Deduct",
+            headerName: "Add/Deduct Stock",
+            width: 150,
+            renderCell: RenderStockButton,
+            disableClickEventBubbling: true,
+          },
           {
             field: "Actions",
             headerName: "Actions",

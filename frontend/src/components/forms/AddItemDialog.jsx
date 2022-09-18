@@ -58,9 +58,13 @@ export default function AddItemDialog({ handleClose, open, id }) {
       handleClose();
     }
     if (item) {
+      //console.log(item);
       setIsUpdate(true);
       setItemDesc(item?.itemDesc);
-      setUnit(item?.unit);
+      setUnit(item?.units);
+      setComment(item?.comment);
+      setCategory(item?.category);
+      setSupplier(item?.supplierName);
       setComment(item?.comment);
     } else {
       setIsUpdate(false);
@@ -156,16 +160,16 @@ export default function AddItemDialog({ handleClose, open, id }) {
                     </Select>
                   </FormControl>
                   <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
-                    <InputLabel id="harvest-unit">Item Unit</InputLabel>
+                    <InputLabel id="item-unit">Item Unit</InputLabel>
                     <Select
-                      labelId="harvest-unit"
-                      id="harvetUnit"
+                      labelId="item-unit"
+                      id="itemUnit"
                       value={unit}
-                      name="harvestUnit"
+                      name="itemUnit"
                       onChange={(e) => setUnit(e.target.value)}
-                      label="-Select harvest unit-"
+                      label="-Select unit-"
                     >
-                      <MenuItem value="Quantity">Bottles</MenuItem>
+                      <MenuItem value="Bottles">Bottles</MenuItem>
                       <MenuItem value="Bales">Bales</MenuItem>
                       <MenuItem value="Bunches">Bunches</MenuItem>
                       <MenuItem value="Bushels">Bushels</MenuItem>

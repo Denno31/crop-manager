@@ -310,6 +310,14 @@ function App() {
             </AdminRoute>
           }
         ></Route>
+        <Route
+          path="/inventory/:id/:add_type"
+          element={
+            <AdminRoute>
+              <InventoryScreen />
+            </AdminRoute>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

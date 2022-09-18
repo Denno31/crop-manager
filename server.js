@@ -48,10 +48,10 @@ app.use("/api/transaction", transactionRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/items", itemRoutes);
 // serve static files
-// app.use(express.static("frontend/build"));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-// });
+app.use(express.static("frontend/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+});
 app.use((err, req, res, next) => {
   console.log(err.message);
   res.status(500).send({ message: err.message });

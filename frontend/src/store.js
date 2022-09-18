@@ -117,6 +117,7 @@ import {
   itemsReducer,
   updateItemReducer,
 } from "./reducers/itemReducers";
+import { stocksReducer } from "./reducers/stockReducer";
 
 const initialState = {
   userSignin: {
@@ -225,6 +226,8 @@ const reducer = combineReducers({
   item: itemReducer,
   itemUpdate: updateItemReducer,
   itemDelete: deleteItemReducer,
+
+  stocks: stocksReducer,
 });
 const store = createStore(
   reducer,

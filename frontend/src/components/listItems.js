@@ -13,6 +13,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AppleIcon from "@mui/icons-material/Apple";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 export const mainListItems = (
   <React.Fragment>
@@ -27,6 +28,12 @@ export const mainListItems = (
         <ParkIcon color="success" />
       </ListItemIcon>
       <ListItemText primary="Fields" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/inventory">
+      <ListItemIcon>
+        <InventoryIcon color="success" />
+      </ListItemIcon>
+      <ListItemText primary="Inventory" />
     </ListItemButton>
   </React.Fragment>
 );

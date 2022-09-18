@@ -22,7 +22,9 @@ import { deleteItem, fetchItem, fetchItems } from "../actions/itemActions";
 import { FETCH_ITEM_RESET } from "../constants/itemConstants";
 import MyDataGrid from "../components/MyDataGrid";
 import AddItemDialog from "../components/forms/AddItemDialog";
-
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import AddDeductStock from "../components/forms/AddDeductStock";
 const columns = [
   { field: "itemDesc", headerName: "Name", width: 150 },
   {
@@ -35,7 +37,7 @@ const columns = [
   {
     field: "units",
     headerName: "Units",
-    type: "number",
+
     flex: 1,
     editable: true,
   },
@@ -43,7 +45,7 @@ const columns = [
   {
     field: "brand",
     headerName: "Brand",
-    type: "number",
+
     flex: 1,
     editable: true,
   },
@@ -65,11 +67,13 @@ const InventoryScreen = () => {
     success: successItemDelete,
   } = useSelector((state) => state.itemDelete);
   const [open, setOpen] = React.useState(false);
+  const [openStock, setOpenStock] = React.useState(false);
   const [id, setId] = React.useState(null);
+  const [additionType, setAdditionType] = React.useState("");
   React.useEffect(() => {
     dispatch(fetchItems());
   }, [dispatch, successItemDelete]);
-
+  console.log(additionType);
   React.useEffect(() => {
     if (id) {
       dispatch(fetchItem(id));
@@ -77,9 +81,14 @@ const InventoryScreen = () => {
       dispatch({ type: FETCH_ITEM_RESET });
     }
   }, [dispatch, id]);
-
+  const handleSetAdditionType = (addType) => {
+    setAdditionType(addType);
+  };
   const handleClickOpen = () => {
     setOpen(true);
+  };
+  const handleClickOpenStock = () => {
+    setOpenStock(true);
   };
   React.useEffect(() => {
     if (!open) setId(null);
@@ -87,16 +96,19 @@ const InventoryScreen = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleCloseStock = () => {
+    setOpenStock(false);
+  };
   const formatRowsData = () => {
     let rows = items?.map((c) => {
       return {
         ...c,
-
         id: c._id,
         handleClickOpen,
-
+        handleClickOpenStock,
         navigateFunc,
         handleDelete,
+        handleSetAdditionType,
       };
     });
     if (!rows) return [];
@@ -145,6 +157,7 @@ const InventoryScreen = () => {
           cols={columns}
           rows={formatRowsData()}
           handleClickOpen={handleClickOpen}
+          handleClickOpenStock={handleClickOpenStock}
         />
       </div>
       <div className="table__responsive">
@@ -206,7 +219,26 @@ const InventoryScreen = () => {
                     <TableCell>{item?.harvestUnit}</TableCell>
                     <TableCell>{item?.plantings}</TableCell>
                     <TableCell>{item?.varieties}</TableCell>
-
+                    <TableCell size="small" align="left">
+                      <Button
+                        onClick={() => {
+                          console.log(item._id);
+                          dispatch(deleteItem(item._id));
+                        }}
+                      >
+                        <AddCircleIcon></AddCircleIcon>
+                      </Button>
+                    </TableCell>
+                    <TableCell size="small" align="left">
+                      <Button
+                        onClick={() => {
+                          console.log(item._id);
+                          dispatch(deleteItem(item._id));
+                        }}
+                      >
+                        <RemoveCircleIcon></RemoveCircleIcon>
+                      </Button>
+                    </TableCell>
                     <TableCell size="small" align="right">
                       <Button
                         onClick={() => {
@@ -241,6 +273,12 @@ const InventoryScreen = () => {
         open={open}
         id={id}
       ></AddItemDialog>
+      <AddDeductStock
+        handleClickOpen={handleClickOpenStock}
+        handleClose={handleCloseStock}
+        open={openStock}
+        additionType={additionType}
+      />
     </MainLayout>
   );
 };
