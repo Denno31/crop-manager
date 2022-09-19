@@ -24,5 +24,9 @@
     "url": "https://github.com/Denno31/mycropmanager.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.5.5"
+  }
 }
