@@ -3,12 +3,14 @@ const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Item = require("../models/ItemModel");
 const StockAdded = require("../models/StockAdded");
+const { isAuth } = require("../utils/utils");
 
 const router = express.Router();
 
 //stocks routes
 router.get(
   "/stocks",
+
   expressAsyncHandler(async function (req, res) {
     const stocksHistory = await StockAdded.find();
 
@@ -17,6 +19,7 @@ router.get(
 );
 router.get(
   "/stocks/group",
+
   expressAsyncHandler(async function (req, res) {
     const stocksHistory = await StockAdded.aggregate([
       {
@@ -32,6 +35,7 @@ router.get(
 );
 router.post(
   "/stocks",
+
   expressAsyncHandler(async function (req, res) {
     const stockAdded = new StockAdded({
       item: req.body.item,
@@ -50,6 +54,7 @@ router.post(
 
 router.get(
   "/",
+
   expressAsyncHandler(async function (req, res) {
     let items = await Item.find();
     const stocksHistory = await StockAdded.aggregate([
@@ -76,6 +81,7 @@ router.get(
 
 router.get(
   "/:id",
+
   expressAsyncHandler(async function (req, res) {
     const items = await Item.findById(req.params.id);
     res.send(items);
@@ -84,6 +90,7 @@ router.get(
 
 router.post(
   "/",
+
   expressAsyncHandler(async function (req, res) {
     const item = new Item({
       itemDesc: req.body.itemDesc,
@@ -99,6 +106,7 @@ router.post(
 
 router.put(
   "/:id",
+
   expressAsyncHandler(async function (req, res) {
     const item = await Item.findById(req.params.id);
     if (!item) {
@@ -113,6 +121,14 @@ router.put(
     const savedItem = await item.save();
 
     res.send(savedItem);
+  })
+);
+router.delete(
+  "/:id",
+
+  expressAsyncHandler(async (req, res) => {
+    const deletedItem = await Item.findByIdAndDelete(req.params.id);
+    res.send({ message: "Item deleted successfully" });
   })
 );
 module.exports = router;
