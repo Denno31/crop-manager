@@ -98,6 +98,7 @@ router.post(
       supplierName: req.body.supplierName,
       brand: req.body.brand,
       category: req.body.category,
+      cost: req.body.cost,
     });
     const savedItem = await item.save();
     res.send(savedItem);
@@ -117,6 +118,7 @@ router.put(
     item.supplierName = req.body.supplierName || item.supplierName;
     item.brand = req.body.brand || item.brand;
     item.category = req.body.category || item.category;
+    item.cost = req.body.cost || item.cost;
 
     const savedItem = await item.save();
 

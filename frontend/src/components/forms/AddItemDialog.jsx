@@ -49,6 +49,7 @@ export default function AddItemDialog({ handleClose, open, id }) {
   const [supplier, setSupplier] = React.useState("");
   const [comment, setComment] = React.useState("");
   const [category, setCategory] = React.useState("");
+  const [cost, setCost] = React.useState(null);
   const [isUpdate, setIsUpdate] = React.useState(false);
   React.useEffect(() => {
     if (success || successUpdate) {
@@ -66,6 +67,7 @@ export default function AddItemDialog({ handleClose, open, id }) {
       setCategory(item?.category);
       setSupplier(item?.supplierName);
       setComment(item?.comment);
+      setCost(item?.cost);
     } else {
       setIsUpdate(false);
     }
@@ -79,6 +81,7 @@ export default function AddItemDialog({ handleClose, open, id }) {
     Item.comment = comment;
     Item.supplier = supplier;
     Item.category = category;
+    Item.cost = cost;
     if (!isUpdate) {
       dispatch(addItem(Item));
     } else {
@@ -189,7 +192,16 @@ export default function AddItemDialog({ handleClose, open, id }) {
                       <MenuItem value="Barrels">Barrels</MenuItem>
                     </Select>
                   </FormControl>
-
+                  <TextField
+                    margin="normal"
+                    required
+                    type="number"
+                    fullWidth
+                    maxRows={4}
+                    label="Cost"
+                    value={cost}
+                    onChange={(e) => setCost(e.target.value)}
+                  />
                   <TextField
                     margin="normal"
                     required

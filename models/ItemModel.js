@@ -7,6 +7,7 @@ const itemSchema = mongoose.Schema(
     units: { type: String, required: true },
     supplierName: { type: String },
     brand: { type: String },
+    cost: { type: Number },
     category: {
       type: String,
       enum: ["Fertilizer", "Insecticide", "Herbicide", "Fungicide", "Nutrient"],

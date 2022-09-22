@@ -41,7 +41,13 @@ const columns = [
     flex: 1,
     editable: true,
   },
-
+  {
+    field: "cost",
+    headerName: "Cost",
+    number: true,
+    flex: 1,
+    editable: true,
+  },
   {
     field: "brand",
     headerName: "Brand",
